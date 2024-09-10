@@ -1,7 +1,7 @@
-// src/pages/RegisterPage.js
+// src/pages/Customer.js
 import React, { useState } from 'react';
 import './css/RegisterPage.css';
-const RegisterPage = () => {
+const Customer = () => {
     // State for input fields
     const [formData, setFormData] = useState({
         name: '',
@@ -79,4 +79,4 @@ const RegisterPage = () => {
     );
 };
 
-export default RegisterPage;
+export default Customer;

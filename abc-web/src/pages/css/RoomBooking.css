@@ -1,0 +1,40 @@
+.room-booking-container {
+    background: url('https://img.freepik.com/free-photo/blurred-reception-hall_1203-222.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.booking-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.booking-card h4 {
+    color: #333;
+}
+
+.booking-card .form-control,
+.booking-card .form-select {
+    border-radius: 5px;
+}
+
+.booking-card .btn-primary {
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+}
+
+.booking-card .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}

@@ -1,10 +1,16 @@
 const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    role: { type: String, enum: ['Admin', 'Staff', 'Customer'], default: 'Customer' },
-    password: String,
+const userSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    role: { type: String, enum: ['admin', 'staff', 'customer'], required: true },
 });
 
-module.exports = mongoose.model('User', UserSchema);
+// OOP principle: Define methods or statics
+userSchema.methods.getFullName = function () {
+    return `${this.name}`;
+};
+
+const User = mongoose.model('User', userSchema);
+module.exports = User;

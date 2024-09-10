@@ -1,25 +1,29 @@
 // src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import HomePage from './pages/HomePage';
-import MenuPage from './pages/MenuPage';
-import ReservationPage from './pages/ReservationPage';
-import RegisterPage from "./pages/RegisterPage";
+import Navbar from './components/NavigationBar';
+// import Home from './pages/Home';
+import Menu from './pages/Menu';
+import Reservation from './pages/Reservation';
+import RegisterForm from './components/RegisterForm';
+// import LoginForm from './components/LoginForm';
+import Login from "./pages/Login";
+import FoodGrid from "./pages/FoodGrid";
+import RoomBooking from "./pages/RoomBooking";
 
 const App = () => {
     return (
         <Router>
-            {/* Navbar is placed inside the Router context */}
-            <Navbar/>
+            <Navbar />
             <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/menu" element={<MenuPage />} />
-                <Route path="/reservations" element={<ReservationPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                {/* Add other routes as needed */}
+                <Route path="/" element={<FoodGrid />} />
+                <Route path="/menu" element={<Menu />} />
+                <Route path="/roomBooking" element={<RoomBooking />} />
+                <Route path="/reservation" element={<Reservation />} />
+                <Route path="/register" element={<RegisterForm />} />
+                <Route path="/login" element={<Login />} />
+                {/* Other routes */}
             </Routes>
-
         </Router>
     );
 };
