@@ -69,6 +69,7 @@ function RoomBooking() {
 
     return (
         <div className="room-booking-container">
+            <h2 className="text-center my-4">Room reservation</h2>
             <Tabs
                 id="room-booking-tabs"
                 activeKey={activeTab}
