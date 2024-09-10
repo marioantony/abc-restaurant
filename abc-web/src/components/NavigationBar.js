@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Navbar, Nav, Container, Modal, Button } from 'react-bootstrap';
 import { FaShoppingCart,FaTimes } from 'react-icons/fa'; // Import cart icon
 import { useNavigate } from 'react-router-dom';
-import './NavigationBar.css'; // Import your CSS file
+import './css/NavigationBar.css'; // Import your CSS file
 
 function NavigationBar({ cartItems, clearCart, removeFromCart }) {
     const [showModal, setShowModal] = useState(false);
@@ -31,8 +31,8 @@ function NavigationBar({ cartItems, clearCart, removeFromCart }) {
                         <Nav className="ms-auto">
                             <Nav.Link href="/">Food Menus</Nav.Link>
                             <Nav.Link href="/roomBooking">Rooms</Nav.Link>
+                            <Nav.Link href="/Reservation">Reservation</Nav.Link>
                             <Nav.Link href="/overview">Overview</Nav.Link>
-                            <Nav.Link href="#contact">Contact</Nav.Link>
                             <Nav.Link href="/register">Register</Nav.Link>
                             <Nav.Link href="/login">Login</Nav.Link>
                             <Nav.Link onClick={handleShow}>
@@ -42,8 +42,6 @@ function NavigationBar({ cartItems, clearCart, removeFromCart }) {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-
-            {/* Modal for cart items */}
             {/* Modal for cart items */}
             <Modal show={showModal} onHide={handleClose} size="lg">
                 <Modal.Header closeButton>

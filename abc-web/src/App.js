@@ -2,11 +2,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/NavigationBar';
-// import Home from './pages/Home';
-import Menu from './pages/Menu';
 import Reservation from './pages/Reservation';
-import RegisterForm from './components/RegisterForm';
-// import LoginForm from './components/LoginForm';
+import RegisterForm from './pages/RegisterForm';
 import Login from "./pages/Login";
 import FoodGrid from "./pages/FoodGrid";
 import RoomBooking from "./pages/RoomBooking";
@@ -32,7 +29,6 @@ const App = () => {
             <Navbar cartItems={cartItems} clearCart={clearCart} removeFromCart={removeFromCart} />
             <Routes>
                 <Route path="/" element={<FoodGrid addToCart={addToCart}/>} />
-                <Route path="/menu" element={<Menu />} />
                 <Route path="/roomBooking" element={<RoomBooking />} />
                 <Route path="/paymentGateway" element={<PaymentGateway />} />
                 <Route path="/overview" element={<Overview />} />

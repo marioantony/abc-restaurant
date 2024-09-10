@@ -75,24 +75,15 @@ const foodItems = [
 ];
 
 function FoodGrid({ addToCart }) {
-    const [cart, setCart] = useState(false);
-    const [selectedFood, setSelectedFood] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [currentFood, setCurrentFood] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [priceRange, setPriceRange] = useState({ min: '', max: '' });
 
-    const handleOrderNow = () => {
-        // Handle the order logic here
-        alert('Order placed!');
-        setCart(false);
-    };
-
-    const handleClose = () => setCart(false);
 
     const handleImageClick = (item) => {
         setCurrentFood(item);
-        setSelectedFood(true);
+        setShowModal(true);
     };
 
     const handleModalClose = () => {
@@ -244,28 +235,28 @@ function FoodGrid({ addToCart }) {
                 </Modal>
             )}
 
-            <Modal show={cart} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add to Cart</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {selectedFood && (
-                        <div>
-                            <h5>{selectedFood.name}</h5>
-                            {/*<p>Price: ${selectedFood.price.toFixed(2)}</p>*/}
-                            <p>Availability: {selectedFood.available}</p>
-                        </div>
-                    )}
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleOrderNow}>
-                        Order Now
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            {/*<Modal show={cart} onHide={handleClose}>*/}
+            {/*    <Modal.Header closeButton>*/}
+            {/*        <Modal.Title>Add to Cart</Modal.Title>*/}
+            {/*    </Modal.Header>*/}
+            {/*    <Modal.Body>*/}
+            {/*        {selectedFood && (*/}
+            {/*            <div>*/}
+            {/*                <h5>{selectedFood.name}</h5>*/}
+            {/*                /!*<p>Price: ${selectedFood.price.toFixed(2)}</p>*!/*/}
+            {/*                <p>Availability: {selectedFood.available}</p>*/}
+            {/*            </div>*/}
+            {/*        )}*/}
+            {/*    </Modal.Body>*/}
+            {/*    <Modal.Footer>*/}
+            {/*        <Button variant="secondary" onClick={handleClose}>*/}
+            {/*            Close*/}
+            {/*        </Button>*/}
+            {/*        <Button variant="primary" onClick={handleOrderNow}>*/}
+            {/*            Order Now*/}
+            {/*        </Button>*/}
+            {/*    </Modal.Footer>*/}
+            {/*</Modal>*/}
         </Container>
     );
 }
