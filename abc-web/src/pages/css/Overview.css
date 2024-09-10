@@ -1,0 +1,38 @@
+.overview-container {
+    padding: 2rem;
+    background-color: #f5f5f5;
+}
+
+.overview-header {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.stat-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.stat-icon {
+    color: #4e73df;
+    margin-bottom: 0.5rem;
+}
+
+.orders-card, .room-status-card, .vacating-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+}
+
+.orders-card table {
+    margin-top: 1rem;
+}
+
+.room-status-card, .vacating-card {
+    padding: 1rem;
+}

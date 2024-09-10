@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import FoodGrid from "./pages/FoodGrid";
 import RoomBooking from "./pages/RoomBooking";
 import PaymentGateway from "./pages/PaymentGateway";
+import Overview from "./pages/Overview";
 
 const App = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -34,6 +35,7 @@ const App = () => {
                 <Route path="/menu" element={<Menu />} />
                 <Route path="/roomBooking" element={<RoomBooking />} />
                 <Route path="/paymentGateway" element={<PaymentGateway />} />
+                <Route path="/overview" element={<Overview />} />
                 <Route path="/reservation" element={<Reservation />} />
                 <Route path="/register" element={<RegisterForm />} />
                 <Route path="/login" element={<Login />} />
