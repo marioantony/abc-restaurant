@@ -18,7 +18,8 @@ const RegisterForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/register', formData);
+            const response = await axios.post('api/user/register', formData);
+            console.log(response,"response")
             alert(response.data.message);
             window.location.href = '/login';
         } catch (error) {
