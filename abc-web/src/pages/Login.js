@@ -7,19 +7,22 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
         try {
             const response = await axios.post('/api/auth/login', { email, password });
+            const { token, user } = response.data;
 
-            // Save token in local storage
-            localStorage.setItem('token', response.data.token);
-            setMessage('Login successful!');
-            // Navigate to a protected route if needed
-        } catch (error) {
-            setMessage(error.response.data.message || 'Login failed');
+            // Store token and user details in local storage
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+
+            // Redirect or perform further actions
+            console.log('Login successful!', user);
+        } catch (err) {
+            setError('Invalid email or password');
         }
     };
 

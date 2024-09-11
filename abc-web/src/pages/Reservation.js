@@ -40,8 +40,8 @@ function ReservationPage() {
                         <Card.Body>
                             <Card.Title>Order Details</Card.Title>
                             <p><strong>Customer:</strong> John Doe</p>
-                            <p><strong>Food Items:</strong> Burger, Pizza, Fries</p>
-                            <p><strong>Total Price:</strong> $45.99</p>
+                            <p><strong>Food Items:</strong> Pizza Margherita, Caesar Salad, Chicken Alfredo</p>
+                            <p><strong>Total Price:</strong> $37</p>
                             <p><strong>Status:</strong> {currentStatus}</p>
 
                             {/* Status Change Buttons */}

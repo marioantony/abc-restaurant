@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Container, Modal, Button } from 'react-bootstrap';
-import { FaShoppingCart,FaTimes } from 'react-icons/fa'; // Import cart icon
+import { FaShoppingCart,FaTimes,FaSignOutAlt } from 'react-icons/fa'; // Import cart icon
 import { useNavigate } from 'react-router-dom';
 import './css/NavigationBar.css'; // Import your CSS file
 
@@ -33,10 +33,13 @@ function NavigationBar({ cartItems, clearCart, removeFromCart }) {
                             <Nav.Link href="/roomBooking">Rooms</Nav.Link>
                             <Nav.Link href="/Reservation">Reservation</Nav.Link>
                             <Nav.Link href="/overview">Overview</Nav.Link>
-                            <Nav.Link href="/register">Register</Nav.Link>
-                            <Nav.Link href="/login">Login</Nav.Link>
+                            {/*<Nav.Link href="/register">Register</Nav.Link>*/}
+                            {/*<Nav.Link href="/login">Login</Nav.Link>*/}
                             <Nav.Link onClick={handleShow}>
                                 <FaShoppingCart size={24} style={{ cursor: 'pointer' }} />
+                            </Nav.Link>
+                            <Nav.Link onClick={handleShow}>
+                                <FaSignOutAlt size={24} style={{ cursor: 'pointer' }} />
                             </Nav.Link>
                         </Nav>
                     </Navbar.Collapse>

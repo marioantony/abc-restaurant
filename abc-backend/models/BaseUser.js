@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // Define a base user schema
 const baseUserSchema = new mongoose.Schema({
@@ -46,6 +47,23 @@ class BaseUser {
         return await mongoose.model('User').findOne({ email });
     }
 }
+
+// Method to hash password before saving
+baseUserSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next();
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+});
+
+// Method to compare password for login
+baseUserSchema.methods.isValidPassword = async function (password) {
+    return await bcrypt.compare(password, this.password);
+};
+
+// Method to generate JWT token
+baseUserSchema.methods.generateAuthToken = function () {
+    return jwt.sign({ _id: this._id, role: this.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+};
 
 // Create and export the User model
 const User = mongoose.model('User', baseUserSchema);
