@@ -24,8 +24,9 @@ function RoomBooking() {
     useEffect(() => {
         const fetchBookings = async () => {
             try {
-                const response = await axios.get('/api/bookings');
-                setBookings(response.data);
+                const response = await axios.get('/api/room');
+                console.log(response.data);  // This is the complete response object
+                setBookings(response.data.data);  // Set the "data" array into the "bookings" state
             } catch (error) {
                 console.error('Error fetching bookings:', error);
             }
@@ -78,6 +79,15 @@ function RoomBooking() {
         return `${days}d ${hours}h ${minutes}m`;
     };
 
+    const handleVacate = async (bookingId) => {
+        try {
+            // Assuming you have a DELETE API to remove a booking
+            await axios.delete(`/api/room/${bookingId}`);
+            setBookings(bookings.filter((booking) => booking._id !== bookingId));
+        } catch (error) {
+            console.error('Error vacating booking:', error);
+        }
+    };
     return (
         <div className="room-booking-container">
             <h2 className="text-center my-4">Room reservation</h2>
@@ -192,14 +202,22 @@ function RoomBooking() {
                                 </thead>
                                 <tbody>
                                 {bookings.map((booking, index) => (
-                                    <tr key={index}>
+                                    <tr key={booking._id}>
                                         <td>{index + 1}</td>
                                         <td>{DateTime.fromISO(booking.fromDate).toFormat('yyyy-MM-dd')}</td>
                                         <td>{DateTime.fromISO(booking.toDate).toFormat('yyyy-MM-dd')}</td>
-                                        <td>{booking.adults}</td>
-                                        <td>{booking.children}</td>
+                                        <td>{booking.adultCount}</td>
+                                        <td>{booking.childrenCount}</td>
                                         <td>{booking.roomCategory}</td>
                                         <td>{formatSeconds(booking.vacatingInSeconds)}</td>
+                                        <td>
+                                            <Button
+                                                variant="danger"
+                                                onClick={() => handleVacate(booking._id)}
+                                            >
+                                                Vacate
+                                            </Button>
+                                        </td>
                                     </tr>
                                 ))}
                                 </tbody>
