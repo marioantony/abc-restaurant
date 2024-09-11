@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, Form, Button, Table, Row, Col, Card } from 'react-bootstrap';
 import { DateTime, Duration } from 'luxon';
+import axios from '../services/api';
 import './css/RoomBooking.css'; // Import the CSS file for additional styling
 
 const roomCategories = ['Standard', 'Deluxe', 'Suite'];
@@ -9,46 +10,56 @@ function RoomBooking() {
     const [activeTab, setActiveTab] = useState('booking');
     const [bookings, setBookings] = useState([]);
     const [newBooking, setNewBooking] = useState({
+        userId:'66e04be8bc0dc28f69aa183b',
+        roomId:'66e19b0021caf61bbee53a13',
         fromDate: '',
         toDate: '',
-        adults: 1,
-        children: 0,
+        childrenCount: 0,
+        adultCount: 1,
         roomCategory: 'Standard',
+
     });
 
     // Handle the countdown for each booking
     useEffect(() => {
-        const interval = setInterval(() => {
-            setBookings((prevBookings) =>
-                prevBookings.map((booking) => {
-                    const vacatingInSeconds = Duration.fromMillis(
-                        DateTime.fromISO(booking.toDate).toMillis() - DateTime.now().toMillis()
-                    ).as('seconds');
-                    return { ...booking, vacatingInSeconds: vacatingInSeconds > 0 ? vacatingInSeconds : 0 };
-                })
-            );
-        }, 1000);
+        const fetchBookings = async () => {
+            try {
+                const response = await axios.get('/api/bookings');
+                setBookings(response.data);
+            } catch (error) {
+                console.error('Error fetching bookings:', error);
+            }
+        };
 
-        return () => clearInterval(interval);
-    }, [bookings]);
+        fetchBookings();
+    }, []);
 
     // Handle form submission
-    const handleBooking = (e) => {
+    const handleBooking = async (e) => {
         e.preventDefault();
         const newBookingEntry = {
             ...newBooking,
-            vacatingInSeconds: Duration.fromMillis(
-                DateTime.fromISO(newBooking.toDate).toMillis() - DateTime.now().toMillis()
-            ).as('seconds'),
+            // vacatingInSeconds: Duration.fromMillis(
+            //     DateTime.fromISO(newBooking.toDate).toMillis() - DateTime.now().toMillis()
+            // ).as('seconds'),
         };
-        setBookings([...bookings, newBookingEntry]);
-        setNewBooking({
-            fromDate: '',
-            toDate: '',
-            adults: 1,
-            children: 0,
-            roomCategory: 'Standard',
-        });
+
+        try {
+            const response = await axios.post('/api/room/booking', newBookingEntry);
+            setBookings([...bookings, response.data.booking]);
+            setNewBooking({
+                userId:'',
+                roomId:'',
+                fromDate: '',
+                toDate: '',
+                childrenCount: 0,
+                adultCount: 1,
+                roomCategory: 'Standard',
+
+            });
+        } catch (error) {
+            console.error('Error creating booking:', error);
+        }
     };
 
     const handleInputChange = (e) => {
@@ -113,8 +124,8 @@ function RoomBooking() {
                                         <Form.Label>Adults</Form.Label>
                                         <Form.Control
                                             type="number"
-                                            name="adults"
-                                            value={newBooking.adults}
+                                            name="adultCount"
+                                            value={newBooking.adultCount}
                                             min="1"
                                             onChange={handleInputChange}
                                             required
@@ -126,8 +137,8 @@ function RoomBooking() {
                                         <Form.Label>Children</Form.Label>
                                         <Form.Control
                                             type="number"
-                                            name="children"
-                                            value={newBooking.children}
+                                            name="childrenCount"
+                                            value={newBooking.childrenCount}
                                             min="0"
                                             onChange={handleInputChange}
                                         />
