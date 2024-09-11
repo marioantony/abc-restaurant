@@ -82,7 +82,7 @@ function RoomBooking() {
     const handleVacate = async (bookingId) => {
         try {
             // Assuming you have a DELETE API to remove a booking
-            await axios.delete(`/api/room/${bookingId}`);
+            await axios.delete(`/api/room/room/${bookingId}`);
             setBookings(bookings.filter((booking) => booking._id !== bookingId));
         } catch (error) {
             console.error('Error vacating booking:', error);
