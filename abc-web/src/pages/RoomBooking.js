@@ -48,9 +48,9 @@ function RoomBooking() {
         e.preventDefault();
         const newBookingEntry = {
             ...newBooking,
-            vacatingInSeconds: Duration.fromMillis(
-                DateTime.fromISO(newBooking.toDate).toMillis() - DateTime.now().toMillis()
-            ).as('seconds'),
+            // vacatingInSeconds: Duration.fromMillis(
+            //     DateTime.fromISO(newBooking.toDate).toMillis() - DateTime.now().toMillis()
+            // ).as('seconds'),
         };
 
         try {
