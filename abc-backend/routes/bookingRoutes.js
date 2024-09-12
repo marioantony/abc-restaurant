@@ -6,5 +6,5 @@ const bookingController = require('../controllers/bookingController');
 // Route to book a room
 router.post('/booking', bookingController.bookRoom);
 router.get('/', bookingController.bookings);
-router.delete('/room/:id', bookingController.deleteBooking);
+router.delete('/rooms/:id', bookingController.deleteBooking);
 module.exports = router;

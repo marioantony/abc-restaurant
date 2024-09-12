@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col,Alert } from 'react-bootstrap';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "../services/api";
+import { useNavigate } from 'react-router-dom';
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
+    // const [message, setMessage] = useState('');
     const [error, setError] = useState('');
-
+    const navigate = useNavigate();
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -18,7 +19,8 @@ function Login() {
             // Store token and user details in local storage
             localStorage.setItem('token', token);
             localStorage.setItem('user', JSON.stringify(user));
-
+            navigate('/');
+            window.location.reload();
             // Redirect or perform further actions
             console.log('Login successful!', user);
         } catch (err) {
@@ -51,7 +53,15 @@ function Login() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </Form.Group>
-
+                        {
+                            error.length !== 0 ? (
+                                <Alert variant="danger">
+                                    {error}
+                                </Alert>
+                            ):(
+                                <p></p>
+                            )
+                        }
                         <Button variant="primary" type="submit" className="w-100">
                             Login
                         </Button>

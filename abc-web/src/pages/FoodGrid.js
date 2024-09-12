@@ -234,29 +234,6 @@ function FoodGrid({ addToCart }) {
                     </Modal.Footer>
                 </Modal>
             )}
-
-            {/*<Modal show={cart} onHide={handleClose}>*/}
-            {/*    <Modal.Header closeButton>*/}
-            {/*        <Modal.Title>Add to Cart</Modal.Title>*/}
-            {/*    </Modal.Header>*/}
-            {/*    <Modal.Body>*/}
-            {/*        {selectedFood && (*/}
-            {/*            <div>*/}
-            {/*                <h5>{selectedFood.name}</h5>*/}
-            {/*                /!*<p>Price: ${selectedFood.price.toFixed(2)}</p>*!/*/}
-            {/*                <p>Availability: {selectedFood.available}</p>*/}
-            {/*            </div>*/}
-            {/*        )}*/}
-            {/*    </Modal.Body>*/}
-            {/*    <Modal.Footer>*/}
-            {/*        <Button variant="secondary" onClick={handleClose}>*/}
-            {/*            Close*/}
-            {/*        </Button>*/}
-            {/*        <Button variant="primary" onClick={handleOrderNow}>*/}
-            {/*            Order Now*/}
-            {/*        </Button>*/}
-            {/*    </Modal.Footer>*/}
-            {/*</Modal>*/}
         </Container>
     );
 }

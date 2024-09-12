@@ -19,6 +19,14 @@ function RoomBooking() {
         roomCategory: 'Standard',
 
     });
+    const [newRoom, setNewRoom] = useState({
+        name: '',
+        category: 'Standard',
+        capacity: 1,
+        price: 0,
+        availability:true
+    });
+    const [availableRooms, setAvailableRooms] = useState([]);
 
     // Handle the countdown for each booking
     useEffect(() => {
@@ -40,16 +48,18 @@ function RoomBooking() {
         e.preventDefault();
         const newBookingEntry = {
             ...newBooking,
-            // vacatingInSeconds: Duration.fromMillis(
-            //     DateTime.fromISO(newBooking.toDate).toMillis() - DateTime.now().toMillis()
-            // ).as('seconds'),
+            vacatingInSeconds: Duration.fromMillis(
+                DateTime.fromISO(newBooking.toDate).toMillis() - DateTime.now().toMillis()
+            ).as('seconds'),
         };
 
         try {
             const response = await axios.post('/api/room/booking', newBookingEntry);
             setBookings([...bookings, response.data.booking]);
+            // After booking, set room availability to false
+            await axios.patch(`/api/rooms/${newBooking.roomId}/availability`, { availability: false });
             setNewBooking({
-                userId:'',
+                userId:'66e04be8bc0dc28f69aa183b',
                 roomId:'',
                 fromDate: '',
                 toDate: '',
@@ -63,12 +73,25 @@ function RoomBooking() {
         }
     };
 
-    const handleInputChange = (e) => {
+    const handleInputChange = async (e) => {
         const { name, value } = e.target;
         setNewBooking((prev) => ({
             ...prev,
             [name]: value,
         }));
+        if (name === 'roomCategory') {
+            // Fetch rooms based on the selected category
+            try {
+                const response = await axios.get(`/api/rooms?category=${value}`);
+
+                let cat = response.data.data.filter((e) => {
+                   return e.category === value;
+                });
+                setAvailableRooms(cat); // Assuming rooms are returned in this structure
+            } catch (error) {
+                console.error('Error fetching rooms:', error);
+            }
+        }
     };
 
     const formatSeconds = (seconds) => {
@@ -82,10 +105,38 @@ function RoomBooking() {
     const handleVacate = async (bookingId) => {
         try {
             // Assuming you have a DELETE API to remove a booking
-            await axios.delete(`/api/room/room/${bookingId}`);
+            await axios.delete(`/api/room/rooms/${bookingId}`);
             setBookings(bookings.filter((booking) => booking._id !== bookingId));
         } catch (error) {
             console.error('Error vacating booking:', error);
+        }
+    };
+
+    // Handle input change
+    const handleRoomInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewRoom((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+// Handle room creation submission
+    const handleRoomCreation = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('/api/rooms/create', newRoom); // Your room creation API endpoint
+            console.log('Room created:', response.data);
+            setNewRoom({
+                name: '',
+                category: 'Standard',
+                capacity: 1,
+                price: 0,
+                availability:true
+            });
+            alert('Room created successfully');
+        } catch (error) {
+            console.error('Error creating room:', error);
         }
     };
     return (
@@ -173,7 +224,29 @@ function RoomBooking() {
                                         </Form.Select>
                                     </Form.Group>
                                 </Col>
+                                <Col md={6}>
+                                    <Form.Group className="mb-3" controlId="roomSelection">
+                                        <Form.Label>Select Room</Form.Label>
+                                        <Form.Select
+                                            name="roomId"
+                                            value={newBooking.roomId}
+                                            onChange={handleInputChange}
+                                            required
+                                        >
+                                            {availableRooms.length === 0 ? (
+                                                <option value="">No rooms available</option>
+                                            ) : (
+                                                availableRooms.map((room) => (
+                                                    <option key={room._id} value={room._id}>
+                                                        {room.name} - Capacity: {room.capacity}, Price: {room.price}
+                                                    </option>
+                                                ))
+                                            )}
+                                        </Form.Select>
+                                    </Form.Group>
+                                </Col>
                             </Row>
+
                             <Button variant="primary" type="submit">
                                 Book Now
                             </Button>
@@ -225,6 +298,80 @@ function RoomBooking() {
                         )}
                     </Card>
                 </Tab>
+
+
+                <Tab eventKey="createRoom" title="Create Room">
+                    <Card className="p-4 shadow booking-card">
+                        <h4 className="mb-3">Create a New Room</h4>
+                        <Form onSubmit={handleRoomCreation}>
+                            <Row>
+                                <Col md={6}>
+                                    <Form.Group className="mb-3" controlId="roomName">
+                                        <Form.Label>Room Name</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            name="name"
+                                            value={newRoom.name}
+                                            onChange={handleRoomInputChange}
+                                            placeholder="Enter room name"
+                                            required
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <Col md={6}>
+                                    <Form.Group className="mb-3" controlId="roomCategory">
+                                        <Form.Label>Room Category</Form.Label>
+                                        <Form.Select
+                                            name="category"
+                                            value={newRoom.category}
+                                            onChange={handleRoomInputChange}
+                                            required
+                                        >
+                                            {roomCategories.map((category, index) => (
+                                                <option key={index} value={category}>
+                                                    {category}
+                                                </option>
+                                            ))}
+                                        </Form.Select>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={6}>
+                                    <Form.Group className="mb-3" controlId="roomCapacity">
+                                        <Form.Label>Capacity</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            name="capacity"
+                                            value={newRoom.capacity}
+                                            onChange={handleRoomInputChange}
+                                            min="1"
+                                            placeholder="Enter room capacity"
+                                            required
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <Col md={6}>
+                                    <Form.Group className="mb-3" controlId="roomPrice">
+                                        <Form.Label>Price (per day)</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            name="price"
+                                            value={newRoom.price}
+                                            onChange={handleRoomInputChange}
+                                            placeholder="Enter price"
+                                            required
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Button variant="primary" type="submit">
+                                Create Room
+                            </Button>
+                        </Form>
+                    </Card>
+                </Tab>
+
             </Tabs>
         </div>
     );

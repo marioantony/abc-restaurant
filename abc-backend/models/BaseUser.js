@@ -30,16 +30,10 @@ class BaseUser {
         this.user = user;
     }
 
-    // Method to hash the password
-    async hashPassword() {
-        this.user.password = await bcrypt.hash(this.user.password, 10);
-    }
 
     // Method to save the user
     async save() {
-        await this.hashPassword();
-        const savedUser = await this.user.save();
-        return savedUser;
+        return  await this.user.save();
     }
 
     // Static method to find a user by email
